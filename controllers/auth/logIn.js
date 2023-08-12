@@ -10,7 +10,7 @@ const { HttpError } = require("../../helpers");
 
 const { SECRET_KEY } = process.env;
 
-const login = async (req, res) => {
+const logIn = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -27,9 +27,13 @@ const login = async (req, res) => {
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "3w" });
   await User.findByIdAndUpdate(user._id, { token });
-  res.status(201).json({
+  res.status(200).json({
     token,
+    user: {
+      email,
+      subscription: "starter"
+    }
   });
 };
 
-module.exports = login;
+module.exports = logIn;
