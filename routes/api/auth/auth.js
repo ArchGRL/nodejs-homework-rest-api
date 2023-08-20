@@ -20,5 +20,9 @@ router.post("/logout", authenticate, ctrl.logout);
 
 router.patch("/", authenticate, validateBody(schemas.subscriptionSchema, "This type of subscription does not exist"), ctrl.updateSubscription);
 
+router.get("/verify/:verificationToken", ctrl.verify);
+
+router.post("/verify", validateBody(schemas.userEmailSchema, "Invalid email address"), ctrl.resendVerifyEmail);
+
 module.exports = router;
 
